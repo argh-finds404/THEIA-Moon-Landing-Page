@@ -1,0 +1,14 @@
+node_modules
+dist
+*.zip
+.cursor
+raw
+
+# Secrets: keys and credentials live in secrets/ or .env files, never in git.
+secrets/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#05070c" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>THEIA — Watch the Earth rise</title>
+    <meta name="description" content="THEIA is a concept for lunar expeditions: six to twenty-eight days, one view nobody forgets — the Earth rising over the Moon." />
+    <meta property="og:title" content="THEIA — Watch the Earth rise" />
+    <meta property="og:description" content="A concept for lunar expeditions." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/media/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Display: Michroma (wide, engineered caps). Text: Manrope. Telemetry: IBM Plex Mono. -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Michroma&family=Manrope:wght@300..700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preload" as="image" href="/layers/d/sky.webp" media="(min-width: 768px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="/layers/m/sky.webp" media="(max-width: 767px)" fetchpriority="high" />
+  </head>
+  <body>
+    <!-- First paint, before React: the same new-moon disc the opener starts from. -->
+    <div id="root"><div style="position:fixed;inset:0;background:#05070c"><div style="position:absolute;left:50%;top:44%;width:min(34vmin,264px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:#0b0f18;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)"></div></div></div>
+    <noscript><p style="position:fixed;inset:auto 0 12%;text-align:center;font:12px/1.5 monospace;letter-spacing:.16em;color:#c9ccd3">THEIA needs JavaScript to show the Earthrise.</p></noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

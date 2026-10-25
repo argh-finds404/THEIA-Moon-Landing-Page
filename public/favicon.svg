@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="moon" x1="0.15" y1="0.1" x2="0.85" y2="0.95">
+      <stop offset="0" stop-color="#fbf5e6"/>
+      <stop offset="1" stop-color="#bfb296"/>
+    </linearGradient>
+    <radialGradient id="earth" cx="0.32" cy="0.3" r="0.85">
+      <stop offset="0" stop-color="#d4ebff"/>
+      <stop offset="0.45" stop-color="#6fb6ff"/>
+      <stop offset="1" stop-color="#174886"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#6fb6ff" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#6fb6ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#05070c"/>
+  <path transform="translate(2.5 4) scale(2.4)" d="M15.5 3.2A9 9 0 1 0 20.8 16 7.2 7.2 0 0 1 15.5 3.2Z" fill="url(#moon)"/>
+  <circle cx="47.5" cy="25" r="12" fill="url(#glow)"/>
+  <circle cx="47.5" cy="25" r="6.2" fill="url(#earth)"/>
+</svg>
