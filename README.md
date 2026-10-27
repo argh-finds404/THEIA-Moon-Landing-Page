@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://theia-engine-alpha.vercel.app/"><b>▶ &nbsp;See it live</b></a>
+  <a href="theia-moon-landing-page.vercel.app"><b>▶ &nbsp;See it live</b></a>
 </p>
 
 <p align="center">
