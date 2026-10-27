@@ -9,9 +9,6 @@
   A scroll-driven journey to the Moon, built from real astronomy and real NASA data.
 </p>
 
-<p align="center">
-  <a href="theia-moon-landing-page.vercel.app"><b>▶ &nbsp;See it live</b></a>
-</p>
 
 <p align="center">
   React · TypeScript · Vite · Tailwind · hand-written WebGL
