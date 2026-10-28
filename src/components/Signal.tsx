@@ -91,51 +91,145 @@ export function Signal() {
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
       g.clearRect(0, 0, w, h);
       const y = h / 2;
-      const ex = 22;
-      const mx = w - 14;
-      const a = ex + 22;
-      const b = mx - 14;
+      const ex = 24;
+      const mx = w - 16;
+      const a = ex + 20;
+      const b = mx - 12;
 
-      g.strokeStyle = 'rgba(201,204,211,0.2)';
-      g.setLineDash([2, 6]);
+      // Check active transit states
+      let activeUp = false;
+      let activeDown = false;
+      for (const m of msgsRef.current) {
+        const d = m.delay * 1000;
+        const up = (now - m.sentAt) / d;
+        const down = (now - landedAt(m)) / d;
+        if (up >= 0 && up < 1) activeUp = true;
+        if (down >= 0 && down < 1) activeDown = true;
+      }
+
+      // Deep space baseline and carrier path
+      g.strokeStyle = activeUp ? 'rgba(111,182,255,0.3)' : activeDown ? 'rgba(242,230,201,0.3)' : 'rgba(201,204,211,0.15)';
+      g.lineWidth = 1;
+      g.setLineDash([2, 5]);
       g.beginPath();
       g.moveTo(a, y);
       g.lineTo(b, y);
       g.stroke();
       g.setLineDash([]);
 
-      const earth = g.createRadialGradient(ex - 5, y - 6, 2, ex, y, 16);
-      earth.addColorStop(0, '#a8d4ff');
-      earth.addColorStop(1, '#1b4f8f');
-      g.fillStyle = earth;
+      // Distance milestones along the laser baseline (25%, 50%, 75%)
+      for (let f = 0.25; f <= 0.75; f += 0.25) {
+        const tickX = a + (b - a) * f;
+        g.strokeStyle = 'rgba(255,255,255,0.12)';
+        g.beginPath();
+        g.moveTo(tickX, y - 3);
+        g.lineTo(tickX, y + 3);
+        g.stroke();
+      }
+
+      // Earth with atmosphere glow & ground optical terminal
+      const earthAtmosphere = g.createRadialGradient(ex, y, 16, ex, y, 26);
+      earthAtmosphere.addColorStop(0, 'rgba(111,182,255,0.35)');
+      earthAtmosphere.addColorStop(1, 'rgba(111,182,255,0)');
+      g.fillStyle = earthAtmosphere;
       g.beginPath();
-      g.arc(ex, y, 16, 0, Math.PI * 2);
-      g.fill();
-      const moon = g.createRadialGradient(mx - 3, y - 3, 1, mx, y, 9);
-      moon.addColorStop(0, '#f1efe8');
-      moon.addColorStop(1, '#7d828d');
-      g.fillStyle = moon;
-      g.beginPath();
-      g.arc(mx, y, 9, 0, Math.PI * 2);
+      g.arc(ex, y, 26, 0, Math.PI * 2);
       g.fill();
 
-      const photon = (x: number, col: string) => {
-        const glow = g.createRadialGradient(x, y, 0, x, y, 16);
-        glow.addColorStop(0, `rgba(${col},0.95)`);
+      const earth = g.createRadialGradient(ex - 5, y - 6, 2, ex, y, 17);
+      earth.addColorStop(0, '#a8d4ff');
+      earth.addColorStop(0.6, '#2868b2');
+      earth.addColorStop(1, '#0c2447');
+      g.fillStyle = earth;
+      g.beginPath();
+      g.arc(ex, y, 17, 0, Math.PI * 2);
+      g.fill();
+
+      // Moon with crater depth & Tranquillity Base terminal
+      const moonAtmosphere = g.createRadialGradient(mx, y, 9, mx, y, 16);
+      moonAtmosphere.addColorStop(0, 'rgba(242,230,201,0.25)');
+      moonAtmosphere.addColorStop(1, 'rgba(242,230,201,0)');
+      g.fillStyle = moonAtmosphere;
+      g.beginPath();
+      g.arc(mx, y, 16, 0, Math.PI * 2);
+      g.fill();
+
+      const moon = g.createRadialGradient(mx - 3, y - 3, 1, mx, y, 10);
+      moon.addColorStop(0, '#fbf9f4');
+      moon.addColorStop(0.7, '#8f949e');
+      moon.addColorStop(1, '#343840');
+      g.fillStyle = moon;
+      g.beginPath();
+      g.arc(mx, y, 10, 0, Math.PI * 2);
+      g.fill();
+
+      // Draw photon packets, particle tails, and optical wavefronts
+      const drawPacket = (px: number, col: string, dir: 1 | -1) => {
+        // Laser core beam trail
+        const trailLen = Math.min(50, Math.abs(px - (dir === 1 ? a : b)));
+        const trailGrad = g.createLinearGradient(px - dir * trailLen, y, px, y);
+        trailGrad.addColorStop(0, `rgba(${col},0)`);
+        trailGrad.addColorStop(0.7, `rgba(${col},0.3)`);
+        trailGrad.addColorStop(1, `rgba(${col},0.9)`);
+        g.strokeStyle = trailGrad;
+        g.lineWidth = 2.5;
+        g.beginPath();
+        g.moveTo(px - dir * trailLen, y);
+        g.lineTo(px, y);
+        g.stroke();
+
+        // Expanding optical wavefront arcs
+        if (!reduced) {
+          for (let w = 1; w <= 3; w++) {
+            const arcR = w * 7;
+            const arcAlpha = 0.6 - w * 0.18;
+            g.strokeStyle = `rgba(${col},${arcAlpha})`;
+            g.lineWidth = 1;
+            g.beginPath();
+            const startAng = dir === 1 ? -Math.PI / 3 : (2 * Math.PI) / 3;
+            const endAng = dir === 1 ? Math.PI / 3 : (4 * Math.PI) / 3;
+            g.arc(px, y, arcR, startAng, endAng);
+            g.stroke();
+          }
+        }
+
+        // Intense photon burst core
+        const glow = g.createRadialGradient(px, y, 0, px, y, 18);
+        glow.addColorStop(0, `rgba(${col},1)`);
+        glow.addColorStop(0.3, `rgba(${col},0.6)`);
         glow.addColorStop(1, `rgba(${col},0)`);
         g.fillStyle = glow;
-        g.fillRect(x - 16, y - 16, 32, 32);
-        g.fillStyle = '#fff';
+        g.fillRect(px - 18, y - 18, 36, 36);
+
+        // Diffraction flare
+        g.strokeStyle = 'rgba(255,255,255,0.85)';
+        g.lineWidth = 1;
         g.beginPath();
-        g.arc(x, y, 2.2, 0, Math.PI * 2);
+        g.moveTo(px - 8, y);
+        g.lineTo(px + 8, y);
+        g.moveTo(px, y - 8);
+        g.lineTo(px, y + 8);
+        g.stroke();
+
+        // White-hot center
+        g.fillStyle = '#ffffff';
+        g.beginPath();
+        g.arc(px, y, 2.5, 0, Math.PI * 2);
         g.fill();
       };
+
       for (const m of msgsRef.current) {
         const d = m.delay * 1000;
         const up = (now - m.sentAt) / d;
         const down = (now - landedAt(m)) / d;
-        if (up >= 0 && up < 1) photon(a + (b - a) * (reduced ? 0.5 : up), '111,182,255');
-        if (down >= 0 && down < 1) photon(b - (b - a) * (reduced ? 0.5 : down), '242,230,201');
+        if (up >= 0 && up < 1) {
+          const posX = a + (b - a) * (reduced ? 0.5 : up);
+          drawPacket(posX, '111,182,255', 1);
+        }
+        if (down >= 0 && down < 1) {
+          const posX = b - (b - a) * (reduced ? 0.5 : down);
+          drawPacket(posX, '242,230,201', -1);
+        }
       }
     });
   }, [reduced]);

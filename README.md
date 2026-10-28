@@ -109,7 +109,7 @@ A few ideas carry the whole project:
 2. **Ignition:** Ten-second dusk liftoff choreographed directly to scroll wheel progression.
 3. **Mission Log:** A horizontal mission reel capturing key stages of lunar exploration, paced with zero-deadzone kinematics.
 4. **Orbit:** Real-time WebGL2 simulation of the Earth and Moon with solar illumination, day/night cycles, and atmospheric scattering.
-5. **Signal:** Interplanetary optical laser link simulation between Houston and Tranquillity Base with exact light-speed delay.
+5. **Signal:** Interplanetary optical laser link simulation between Houston and Tranquillity Base featuring relativistic light-speed photon propagation and optical wavefronts.
 6. **Trajectory:** 384,400 km orbital path traced smoothly through the cislunar corridor.
 7. **Legends:** Interactive archival dossier of historic lunar missions (Apollo, Lunokhod, Chang'e, Chandrayaan).
 8. **Landing Sites:** Interactive 3D lunar globe with landing coordinates and coordinates navigation.
