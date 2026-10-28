@@ -389,7 +389,7 @@ function Dossier({
       onCancel={onCancel}
       data-lenis-prevent
       aria-labelledby="dossier-title"
-      className={`dossier m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto overscroll-contain border-0 bg-void p-0 text-regolith backdrop:bg-void lg:overflow-hidden ${state}`}
+      className={`dossier m-0 h-dvh max-h-none w-full max-w-none overflow-x-hidden overflow-y-auto overscroll-contain border-0 bg-void p-0 text-regolith backdrop:bg-void lg:overflow-hidden ${state}`}
     >
       {/* Top bar first, so Back is the first stop for the keyboard. */}
       <div
@@ -418,7 +418,7 @@ function Dossier({
       </div>
 
       {m && index !== null && (
-        <div ref={bodyRef} key={m.id} className="dossier-body grid min-h-full lg:h-full lg:grid-cols-[minmax(0,1.45fr)_minmax(24rem,1fr)]">
+        <div ref={bodyRef} key={m.id} className="dossier-body grid min-h-full lg:h-full lg:grid-cols-[minmax(0,1.35fr)_minmax(20rem,1fr)]">
           <figure ref={mediaRef} className="relative h-[56svh] overflow-hidden bg-black lg:h-full">
             {showFilm ? (
               <video
@@ -471,63 +471,65 @@ function Dossier({
             </figcaption>
           </figure>
 
-          <div className="dossier-copy flex flex-col px-5 pt-8 pb-10 sm:px-8 lg:overflow-y-auto lg:px-12 lg:pt-28 lg:pb-12" data-lenis-prevent>
-            <p className="flex items-baseline justify-between gap-4 font-mono text-label uppercase" style={{'--d': 0} as React.CSSProperties}>
-              <span className="text-earth">
-                {m.year} <span className="text-regolith/45">/ {m.agency}</span>
-              </span>
-              <span className="text-regolith/45 tabular-nums">
-                {pad(index + 1)} / {pad(N)}
-              </span>
-            </p>
-            <h2 id="dossier-title" className="mt-4 font-display text-[clamp(1.75rem,3.4vw,3.25rem)] leading-[1.05] tracking-[0.06em] text-balance text-white uppercase" style={{'--d': 1} as React.CSSProperties}>
-              {m.name}
-            </h2>
-            <p className="mt-3 text-lead text-sunlit" style={{'--d': 2} as React.CSSProperties}>
-              {m.first}
-            </p>
-            <p className="mt-6 max-w-[46ch] text-body text-pretty text-regolith/80" style={{'--d': 3} as React.CSSProperties}>
-              {m.story}
-            </p>
+          <div className="dossier-copy flex flex-col justify-between px-5 pt-6 pb-8 sm:px-8 lg:overflow-y-auto lg:px-9 lg:pt-14 lg:pb-5 xl:px-11 xl:pt-16 xl:pb-6 2xl:pt-20 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]" data-lenis-prevent>
+            <div>
+              <p className="flex items-baseline justify-between gap-4 font-mono text-label uppercase" style={{'--d': 0} as React.CSSProperties}>
+                <span className="text-earth">
+                  {m.year} <span className="text-regolith/45">/ {m.agency}</span>
+                </span>
+                <span className="text-regolith/45 tabular-nums">
+                  {pad(index + 1)} / {pad(N)}
+                </span>
+              </p>
+              <h2 id="dossier-title" className="mt-2.5 font-display text-[clamp(1.35rem,2.2vw,2.4rem)] leading-[1.08] tracking-[0.05em] text-balance text-white uppercase" style={{'--d': 1} as React.CSSProperties}>
+                {m.name}
+              </h2>
+              <p className="mt-1.5 text-[clamp(0.9375rem,1.15vw,1.1875rem)] leading-snug text-sunlit" style={{'--d': 2} as React.CSSProperties}>
+                {m.first}
+              </p>
+              <p className="mt-3 max-w-[46ch] text-[0.875rem] leading-relaxed text-regolith/85 xl:text-[0.9375rem]" style={{'--d': 3} as React.CSSProperties}>
+                {m.story}
+              </p>
 
-            <dl className="mt-8 grid gap-4 border-t border-white/10 pt-6 sm:grid-cols-[auto_1fr] sm:gap-x-8" style={{'--d': 4} as React.CSSProperties}>
-              {[
-                [legends.when, m.when],
-                [m.crewed ? legends.crew : legends.craft, m.who],
-                [legends.where, m.where],
-              ].map(([k, v]) => (
-                <div key={k} className="contents">
-                  <dt className="font-mono text-label text-regolith/45 uppercase sm:pt-0.5">{k}</dt>
-                  <dd className="-mt-3 text-[0.9375rem] text-white sm:mt-0">{v}</dd>
-                </div>
-              ))}
-            </dl>
+              <dl className="mt-3.5 grid gap-2.5 border-t border-white/10 pt-3 sm:grid-cols-[auto_1fr] sm:gap-x-6" style={{'--d': 4} as React.CSSProperties}>
+                {[
+                  [legends.when, m.when],
+                  [m.crewed ? legends.crew : legends.craft, m.who],
+                  [legends.where, m.where],
+                ].map(([k, v]) => (
+                  <div key={k} className="contents">
+                    <dt className="font-mono text-label text-regolith/45 uppercase sm:pt-0.5">{k}</dt>
+                    <dd className="-mt-1.5 text-[0.875rem] text-white sm:mt-0">{v}</dd>
+                  </div>
+                ))}
+              </dl>
 
-            <dl className="mt-8 grid gap-4 border-y border-white/10 py-6 sm:grid-cols-3" style={{'--d': 5} as React.CSSProperties}>
-              {m.stats.map(([k, v]) => (
-                <div key={k} className="flex items-baseline justify-between gap-2 sm:flex-col-reverse sm:items-start sm:justify-end">
-                  <dt className="font-mono text-[0.625rem] tracking-[0.14em] text-regolith/50 uppercase">{k}</dt>
-                  <dd className="font-display text-[clamp(1rem,1.6vw,1.375rem)] leading-tight text-white">{v}</dd>
-                </div>
-              ))}
-            </dl>
+              <dl className="mt-3.5 grid gap-3 border-y border-white/10 py-3 sm:grid-cols-3" style={{'--d': 5} as React.CSSProperties}>
+                {m.stats.map(([k, v]) => (
+                  <div key={k} className="flex items-baseline justify-between gap-2 sm:flex-col-reverse sm:items-start sm:justify-end">
+                    <dt className="font-mono text-[0.625rem] tracking-[0.14em] text-regolith/50 uppercase">{k}</dt>
+                    <dd className="font-display text-[clamp(0.9375rem,1.35vw,1.25rem)] leading-tight text-white">{v}</dd>
+                  </div>
+                ))}
+              </dl>
 
-            <p className="mt-6 text-[0.75rem] leading-relaxed text-regolith/45" style={{'--d': 6} as React.CSSProperties}>
-              <span className="font-mono tracking-[0.14em] uppercase">{legends.credit}</span> {m.credit}
-            </p>
+              <p className="mt-2.5 text-[0.6875rem] leading-snug text-regolith/50" style={{'--d': 6} as React.CSSProperties}>
+                <span className="font-mono tracking-[0.14em] uppercase">{legends.credit}</span> {m.credit}
+              </p>
+            </div>
 
             {next && (
               <button
                 type="button"
                 onClick={() => onGo(index + 1)}
-                className="group mt-10 flex items-center justify-between gap-4 border-t border-white/10 pt-6 text-left lg:mt-auto"
+                className="group mt-3.5 flex items-center justify-between gap-4 border-t border-white/10 pt-3 text-left"
                 style={{'--d': 7} as React.CSSProperties}
               >
                 <span>
                   <span className="block font-mono text-label text-regolith/45 uppercase">
                     {legends.nextUp}, {next.year}
                   </span>
-                  <span className="mt-1.5 block font-display text-[1rem] tracking-[0.12em] text-white uppercase">{next.name}</span>
+                  <span className="mt-1 block font-display text-[0.9375rem] tracking-[0.12em] text-white uppercase">{next.name}</span>
                 </span>
                 <span className={roundButton}>
                   <Chevron dir="right" />

@@ -114,7 +114,7 @@ A few ideas carry the whole project:
 4. **Orbit:** Real-time WebGL2 simulation of the Earth and Moon with solar illumination, day/night cycles, and atmospheric scattering.
 5. **Signal:** Interplanetary optical laser link simulation between Houston (Goldstone DSN) and Tranquillity Base with live photon transit countdown, optical carrier waveforms, and relativistic light-speed physics telemetry.
 6. **Trajectory:** 384,400 km orbital path traced smoothly through the cislunar corridor.
-7. **Legends:** Interactive archival dossier of historic lunar missions (Apollo, Lunokhod, Chang'e, Chandrayaan).
+7. **Legends:** Interactive archival dossier of historic lunar missions (Apollo, Lunokhod, Chang'e, Chandrayaan), calibrated to display all mission telemetry and history in full viewport height without internal scroll clipping.
 8. **Landing Sites:** Interactive 3D lunar globe with landing coordinates and coordinates navigation.
 9. **Reserve & Mission Plaque:** Live-engraved flight plaque harmonograph.
 
