@@ -39,8 +39,17 @@ export function FlightRail() {
 
   useEffect(() => {
     let lastY = -1;
+    let cachedLen = 0;
 
-    return onFrame(() => {
+    const measure = () => {
+      if (pathRef.current) {
+        cachedLen = pathRef.current.getTotalLength();
+      }
+    };
+    measure();
+    window.addEventListener('resize', measure, {passive: true});
+
+    const off = onFrame(() => {
       const path = pathRef.current;
       const beacon = beaconRef.current;
       if (!path || !beacon) return;
@@ -52,10 +61,15 @@ export function FlightRail() {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight > 0 ? clamp(currentY / docHeight) : 0;
 
-      const totalLen = path.getTotalLength();
+      const totalLen = cachedLen || path.getTotalLength();
       const pt = path.getPointAtLength(totalLen * progress);
       beacon.setAttribute('transform', `translate(${pt.x.toFixed(1)}, ${pt.y.toFixed(1)})`);
     });
+
+    return () => {
+      off();
+      window.removeEventListener('resize', measure);
+    };
   }, []);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {

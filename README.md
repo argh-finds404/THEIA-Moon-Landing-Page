@@ -97,6 +97,7 @@ A few ideas carry the whole project:
 - **One animation loop.** The whole page shares a single loop and updates the screen directly, so React stays out of the way and the scroll stays smooth.
 - **Zero layout thrashing.** Scroll readers decouple geometric measurement phases from style mutation phases, keeping 60–120fps motion stutter-free.
 - **Relativistic light-time simulation.** The Signal laser link simulates physical cislunar photon delay with real ephemeris distance ($c = 299,792\text{ km/s}$).
+- **Orbital tracker flight rail.** An interactive right-rail SVG trajectory beacon tracks scroll position with cached arc measurements.
 - **Asynchronous WebGL texture streaming.** Multi-megabyte 4K maps decode off-thread and upload across frame ticks to eliminate scroll hitching.
 - **Real maths, small and honest.** Moon phase, distance and signal delay come from astronomical formulas. Anything approximate is labelled approximate.
 - **Real data.** NASA's Moon and Earth maps, mission photos, and the Gaia star survey, turned into web-sized images by scripts in this repo.
