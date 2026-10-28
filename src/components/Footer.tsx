@@ -109,7 +109,7 @@ export function Footer() {
                 className="mt-3 w-full cursor-pointer accent-sunlit"
               />
             </label>
-            <p className="mt-3 max-w-[40ch] text-[0.75rem] leading-relaxed text-regolith/40">
+            <p className="mt-3 max-w-[40ch] text-[0.75rem] leading-relaxed text-regolith/60">
               {footer.approx} {footer.spin}
             </p>
           </div>
@@ -136,7 +136,7 @@ export function Footer() {
                 <li key={m.name}>
                   <a href="#missions" onClick={(e) => go(e)} className="flex items-baseline justify-between gap-3 text-[0.9375rem] text-regolith/85 transition-colors hover:text-white">
                     {m.name}
-                    <span className="font-mono text-label text-regolith/40 tabular-nums">{m.days} d</span>
+                    <span className="font-mono text-label text-regolith/60 tabular-nums">{m.days} d</span>
                   </a>
                 </li>
               ))}
@@ -160,7 +160,7 @@ export function Footer() {
       </div>
 
       <div className="flex flex-col gap-4 border-t border-white/10 px-4 py-6 sm:px-6 md:flex-row md:items-center md:justify-between md:px-[6vw]">
-        <p className="flex items-start gap-2.5 text-[0.8125rem] leading-relaxed text-regolith/50 md:items-center">
+        <p className="flex items-start gap-2.5 text-[0.8125rem] leading-relaxed text-regolith/65 md:items-center">
           <Crescent className="mt-0.5 size-4 shrink-0 text-white/70 md:mt-0" />
           <span>
             © {new Date(now).getFullYear()} {brand.wordmark}. {footer.disclaimer}

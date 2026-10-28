@@ -87,7 +87,8 @@ export function Signal() {
         c.width = Math.round(w * dpr);
         c.height = Math.round(h * dpr);
       }
-      const g = c.getContext('2d')!;
+      const g = c.getContext('2d');
+      if (!g) return;
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
       g.clearRect(0, 0, w, h);
       const y = h / 2;
@@ -108,7 +109,7 @@ export function Signal() {
       }
 
       // Deep space baseline and carrier path
-      g.strokeStyle = activeUp ? 'rgba(111,182,255,0.3)' : activeDown ? 'rgba(242,230,201,0.3)' : 'rgba(201,204,211,0.15)';
+      g.strokeStyle = activeUp ? 'rgba(111,182,255,0.45)' : activeDown ? 'rgba(242,230,201,0.45)' : 'rgba(201,204,211,0.22)';
       g.lineWidth = 1;
       g.setLineDash([2, 5]);
       g.beginPath();
@@ -120,7 +121,7 @@ export function Signal() {
       // Distance milestones along the laser baseline (25%, 50%, 75%)
       for (let f = 0.25; f <= 0.75; f += 0.25) {
         const tickX = a + (b - a) * f;
-        g.strokeStyle = 'rgba(255,255,255,0.12)';
+        g.strokeStyle = 'rgba(255,255,255,0.25)';
         g.beginPath();
         g.moveTo(tickX, y - 3);
         g.lineTo(tickX, y + 3);
@@ -376,7 +377,7 @@ export function Signal() {
 
         {/* The link between them. */}
         <div className="relative flex flex-col justify-between gap-5 border-y border-white/10 bg-black/30 px-5 py-7 lg:border-x lg:border-y-0 lg:px-6">
-          <div className="flex items-center justify-between font-mono text-[0.625rem] tracking-[0.18em] text-regolith/50 uppercase">
+          <div className="flex items-center justify-between font-mono text-[0.625rem] tracking-[0.18em] text-regolith/65 uppercase">
             <span>{signal.link}</span>
             <span className="text-earth/90">1550 nm IR</span>
           </div>
@@ -407,7 +408,7 @@ export function Signal() {
             </div>
           </div>
 
-          <dl className="grid grid-cols-3 divide-x divide-white/10 text-center font-mono text-[0.5625rem] tracking-[0.14em] text-regolith/50 uppercase">
+          <dl className="grid grid-cols-3 divide-x divide-white/10 text-center font-mono text-[0.5625rem] tracking-[0.14em] text-regolith/65 uppercase">
             <div className="px-1">
               <dt>{signal.distance}</dt>
               <dd className="mt-1.5 text-[0.875rem] font-semibold tracking-normal text-white tabular-nums">{Math.round(sky.km / 1000)}k km</dd>
@@ -433,8 +434,8 @@ export function Signal() {
               </span>
               <span className="rounded bg-sunlit/15 px-2 py-0.5 font-mono text-[0.625rem] tracking-widest text-sunlit uppercase">{signal.moonWhere}</span>
             </p>
-            <p className="font-mono text-[0.625rem] tracking-wider text-regolith/50 uppercase">{signal.moonStation}</p>
-            <p className="font-mono text-[0.5625rem] tracking-widest text-sunlit/70 uppercase">{signal.moonTerminal}</p>
+            <p className="font-mono text-[0.625rem] tracking-wider text-regolith/65 uppercase">{signal.moonStation}</p>
+            <p className="font-mono text-[0.5625rem] tracking-widest text-sunlit/85 uppercase">{signal.moonTerminal}</p>
           </div>
 
           <ol className={transcript} aria-live="polite">
@@ -450,8 +451,8 @@ export function Signal() {
                 </span>
                 <div className="font-mono">
                   <p className="text-[0.8125rem] font-medium tracking-widest text-sunlit uppercase">{signal.emptyMoon}</p>
-                  <p className="mt-1 text-[0.625rem] tracking-wider text-regolith/40 uppercase">0.67°N 23.47°E · Sea of Tranquillity</p>
-                  <p className="mt-0.5 text-[0.5625rem] tracking-widest text-regolith/30 uppercase">Optical Carrier Locked · Awaiting Uplink</p>
+                  <p className="mt-1 text-[0.625rem] tracking-wider text-regolith/60 uppercase">0.67°N 23.47°E · Sea of Tranquillity</p>
+                  <p className="mt-0.5 text-[0.5625rem] tracking-widest text-regolith/50 uppercase">Optical Carrier Locked · Awaiting Uplink</p>
                 </div>
               </li>
             )}
@@ -470,11 +471,11 @@ export function Signal() {
               })}
           </ol>
 
-          <p className="mt-6 flex min-h-12 items-center border-t border-white/10 pt-4 font-mono text-[0.625rem] tracking-[0.12em] text-regolith/50 uppercase tabular-nums">{signal.lag(sky.seconds.toFixed(2))}</p>
+          <p className="mt-6 flex min-h-12 items-center border-t border-white/10 pt-4 font-mono text-[0.625rem] tracking-[0.12em] text-regolith/65 uppercase tabular-nums">{signal.lag(sky.seconds.toFixed(2))}</p>
         </div>
       </div>
 
-      <p className="mt-6 max-w-[60ch] text-[0.75rem] leading-relaxed text-regolith/40" data-reveal>
+      <p className="mt-6 max-w-[60ch] text-[0.75rem] leading-relaxed text-regolith/60" data-reveal>
         {signal.note}
       </p>
     </section>
