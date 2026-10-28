@@ -342,12 +342,13 @@ export function Signal() {
           <div className="mt-6 flex flex-wrap gap-2">
             {signal.chips.map((c) => (
               <button
-                key={c}
+                key={c.text}
                 type="button"
-                onClick={() => send(c)}
-                className="min-h-9 rounded-full bg-white/[0.03] px-3.5 text-[0.8125rem] text-regolith/85 ring-1 ring-white/12 transition-[background-color,color,box-shadow,scale] duration-200 hover:bg-earth/10 hover:text-white hover:ring-earth/50 focus-visible:ring-earth focus-visible:outline-none active:scale-[0.97] motion-reduce:active:scale-100"
+                onClick={() => send(c.text)}
+                className="group flex min-h-9 items-center gap-2 rounded-full bg-white/[0.03] px-3.5 py-1.5 text-[0.8125rem] text-regolith/85 ring-1 ring-white/12 transition-[background-color,color,box-shadow,scale] duration-200 hover:bg-earth/10 hover:text-white hover:ring-earth/50 focus-visible:ring-earth focus-visible:outline-none active:scale-[0.97] motion-reduce:active:scale-100"
               >
-                {c}
+                <span>{c.text}</span>
+                <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-[0.625rem] tracking-wider text-regolith/60 uppercase transition-colors group-hover:bg-earth/20 group-hover:text-earth">{c.tag}</span>
               </button>
             ))}
           </div>
@@ -438,15 +439,20 @@ export function Signal() {
 
           <ol className={transcript} aria-live="polite">
             {msgs.filter((m) => stageOf(m, now) >= 1).length === 0 && (
-              <li className="flex h-full min-h-44 flex-col items-center justify-center gap-5 text-[0.875rem] text-regolith/45">
+              <li className="flex h-full min-h-48 flex-col items-center justify-center gap-4 text-center">
                 {/* A receiver, waiting. */}
-                <span aria-hidden="true" className="relative grid size-16 place-items-center">
-                  <span className="absolute inset-0 rounded-full ring-1 ring-sunlit/10" />
-                  <span className="absolute inset-3 rounded-full ring-1 ring-sunlit/20" />
+                <span aria-hidden="true" className="relative grid size-20 place-items-center">
+                  <span className="absolute inset-0 rounded-full ring-1 ring-sunlit/15" />
+                  <span className="absolute inset-3 rounded-full ring-1 ring-sunlit/25" />
+                  <span className="absolute inset-7 rounded-full ring-1 ring-sunlit/35" />
                   <span className="absolute inset-0 animate-ping rounded-full ring-1 ring-sunlit/30 [animation-duration:2.4s] motion-reduce:hidden" />
-                  <span className="size-1.5 rounded-full bg-sunlit/80" />
+                  <span className="size-2 rounded-full bg-sunlit shadow-[0_0_12px_rgb(242_230_201/0.9)]" />
                 </span>
-                {signal.emptyMoon}
+                <div className="font-mono">
+                  <p className="text-[0.8125rem] font-medium tracking-widest text-sunlit uppercase">{signal.emptyMoon}</p>
+                  <p className="mt-1 text-[0.625rem] tracking-wider text-regolith/40 uppercase">0.67°N 23.47°E · Sea of Tranquillity</p>
+                  <p className="mt-0.5 text-[0.5625rem] tracking-widest text-regolith/30 uppercase">Optical Carrier Locked · Awaiting Uplink</p>
+                </div>
               </li>
             )}
             {msgs

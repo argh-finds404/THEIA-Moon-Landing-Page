@@ -107,7 +107,11 @@ export const signal = {
   carrierSpeed: 'Speed of light c = 299,792 km/s',
   conceptBadge: 'Relativistic Light-Lag Physics',
   conceptExplanation: 'Radio & laser signals travel at 299,792 km/s. Across cislunar space, every photon requires real travel time to arrive.',
-  chips: ['Ping', 'Good morning, Theia', 'How’s the view?'],
+  chips: [
+    { text: 'Ping', tag: 'RTT Test' },
+    { text: 'Good morning, Theia', tag: 'Status Check' },
+    { text: 'How’s the view?', tag: 'Observation' },
+  ],
   label: 'Message to the crew',
   placeholder: 'Type a message',
   send: 'Send',
