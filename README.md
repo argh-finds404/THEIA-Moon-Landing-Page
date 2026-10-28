@@ -146,6 +146,15 @@ To make a production build, run `npm run build`.
 
 <br />
 
+## Checkpoints
+
+- **`checkpoint-signal-original`**: Point in time preserving the original lightweight Signal laser console before high-fidelity visual and telemetry upgrades. To restore:
+  ```bash
+  git checkout checkpoint-signal-original -- src/components/Signal.tsx
+  ```
+
+<br />
+
 ## Credits
 
 - **Inspiration and starting point:** [Scrolltide's Selene](https://www.scrolltide.co/templates/selene). The hero artwork comes from their template.
