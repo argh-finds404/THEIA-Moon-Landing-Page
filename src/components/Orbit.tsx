@@ -208,13 +208,15 @@ export function Orbit() {
         ['uMoonNormal', '/media/space/moon-normal-2k.webp'],
         ['uStars', starsPortrait ? '/media/space/stars-m.webp' : '/media/space/stars-d.webp'],
       ];
-      Promise.all(maps.map(([, url], i) => loadTexture(gl, url, i)))
-        .then(() => {
-          maps.forEach(([name], i) => gl.uniform1i(u(name), i));
-          ready = true;
-          lastP = -1; // draw the first frame even if nothing is moving
-        })
-        .catch(() => setFallback(true));
+      (async () => {
+        for (let i = 0; i < maps.length; i++) {
+          const [name, url] = maps[i];
+          await loadTexture(gl, url, i);
+          gl.uniform1i(u(name), i);
+        }
+        ready = true;
+        lastP = -1; // draw the first frame even if nothing is moving
+      })().catch(() => setFallback(true));
     };
 
     // Set up and fetch the maps well before the chapter arrives.

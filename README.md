@@ -96,6 +96,7 @@ A few ideas carry the whole project:
 - **Scroll is the timeline.** Everything is drawn from how far you've scrolled, not from timers, so it plays forwards and backwards smoothly.
 - **One animation loop.** The whole page shares a single loop and updates the screen directly, so React stays out of the way and the scroll stays smooth.
 - **Zero layout thrashing.** Scroll readers decouple geometric measurement phases from style mutation phases, keeping 60–120fps motion stutter-free.
+- **Asynchronous WebGL texture streaming.** Multi-megabyte 4K maps decode off-thread and upload across frame ticks to eliminate scroll hitching.
 - **Real maths, small and honest.** Moon phase, distance and signal delay come from astronomical formulas. Anything approximate is labelled approximate.
 - **Real data.** NASA's Moon and Earth maps, mission photos, and the Gaia star survey, turned into web-sized images by scripts in this repo.
 - **Built to be used by everyone.** It respects reduced-motion settings, works with a keyboard and screen readers, and has fallbacks where WebGL isn't available.

@@ -110,25 +110,51 @@ export function createScene(canvas: HTMLCanvasElement, fragment: string, opts: {
 /** Load an image into a mipmapped texture on `unit`: repeats east–west, clamps at the poles. */
 export function loadTexture(gl: WebGL2RenderingContext, url: string, unit: number): Promise<WebGLTexture> {
   return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.decoding = 'async';
-    img.onload = () => {
-      const tex = gl.createTexture();
-      if (!tex) return reject(new Error('texture'));
-      gl.activeTexture(gl.TEXTURE0 + unit);
-      gl.bindTexture(gl.TEXTURE_2D, tex);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-      gl.generateMipmap(gl.TEXTURE_2D);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-      const aniso = gl.getExtension('EXT_texture_filter_anisotropic');
-      if (aniso) gl.texParameterf(gl.TEXTURE_2D, aniso.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(8, gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
-      resolve(tex);
+    const upload = (source: TexImageSource) => {
+      // Yield to the frame loop before synchronous GPU upload & mipmap generation
+      requestAnimationFrame(() => {
+        try {
+          const tex = gl.createTexture();
+          if (!tex) return reject(new Error('texture'));
+          gl.activeTexture(gl.TEXTURE0 + unit);
+          gl.bindTexture(gl.TEXTURE_2D, tex);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+          gl.generateMipmap(gl.TEXTURE_2D);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          const aniso = gl.getExtension('EXT_texture_filter_anisotropic');
+          if (aniso) gl.texParameterf(gl.TEXTURE_2D, aniso.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(8, gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
+          resolve(tex);
+        } catch (e) {
+          reject(e);
+        }
+      });
     };
-    img.onerror = () => reject(new Error(`could not load ${url}`));
-    img.src = url;
+
+    if (typeof fetch === 'function' && typeof createImageBitmap === 'function') {
+      fetch(url)
+        .then((res) => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return res.blob();
+        })
+        .then((blob) => createImageBitmap(blob))
+        .then((bitmap) => upload(bitmap))
+        .catch(() => {
+          const img = new Image();
+          img.decoding = 'async';
+          img.onload = () => upload(img);
+          img.onerror = () => reject(new Error(`could not load ${url}`));
+          img.src = url;
+        });
+    } else {
+      const img = new Image();
+      img.decoding = 'async';
+      img.onload = () => upload(img);
+      img.onerror = () => reject(new Error(`could not load ${url}`));
+      img.src = url;
+    }
   });
 }
 
