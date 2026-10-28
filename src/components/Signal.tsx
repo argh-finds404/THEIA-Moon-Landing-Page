@@ -242,6 +242,34 @@ export function Signal() {
   const sent = 'w-fit max-w-[85%] rounded-[12px] bg-earth/12 px-3.5 py-2 text-[0.9375rem] leading-snug text-white ring-1 ring-earth/30';
   const reply = 'w-fit max-w-[85%] rounded-[12px] bg-sunlit/[0.08] px-3.5 py-2 text-[0.9375rem] leading-snug text-sunlit ring-1 ring-sunlit/25';
 
+  const getActiveStatus = () => {
+    for (const m of msgs) {
+      const s = stageOf(m, now);
+      if (s === 0) {
+        const rem = Math.max(0, (landedAt(m) - now) / 1000);
+        return {
+          inFlight: true,
+          isReply: false,
+          label: `Uplink Transit · ${rem.toFixed(2)}s to Moon`,
+        };
+      }
+      if (s === 1) {
+        const rem = Math.max(0, (answeredAt(m) - now) / 1000);
+        return {
+          inFlight: true,
+          isReply: true,
+          label: `Downlink Transit · ${rem.toFixed(2)}s to Earth`,
+        };
+      }
+    }
+    return {
+      inFlight: false,
+      isReply: false,
+      label: 'Optical Link Synchronized · Ready',
+    };
+  };
+  const activeStatus = getActiveStatus();
+
   return (
     <section ref={ref} id="signal" aria-labelledby="signal-title" className="relative bg-void px-4 py-28 sm:px-6 md:px-[6vw] md:py-36">
       <div className="max-w-[44rem]" data-reveal>
@@ -252,8 +280,18 @@ export function Signal() {
         <p className="mt-5 max-w-[40rem] text-body text-pretty text-regolith/70">{signal.body(Math.round(sky.km).toLocaleString('en-US'), sky.seconds.toFixed(2))}</p>
       </div>
 
+      {/* Concept explainer HUD banner */}
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-void-2/60 px-4 py-3 backdrop-blur" data-reveal>
+        <div className="flex items-center gap-2.5">
+          <span className="size-2 animate-pulse rounded-full bg-earth shadow-[0_0_8px_rgb(111_182_255/0.8)]" />
+          <span className="font-mono text-[0.6875rem] tracking-wider text-white uppercase">{signal.conceptBadge}</span>
+        </div>
+        <p className="text-[0.75rem] text-regolith/75">{signal.conceptExplanation}</p>
+        <span className="font-mono text-[0.6875rem] tracking-wider text-earth uppercase">{signal.carrierSpeed}</span>
+      </div>
+
       {/* One console: Houston, the link, the crew. */}
-      <div className="relative mt-14 overflow-hidden rounded-[16px] bg-void-2/60 shadow-[0_40px_120px_-60px_rgb(111_182_255/0.35)] ring-1 ring-white/10 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(14rem,0.62fr)_minmax(0,1fr)]" data-reveal>
+      <div className="relative mt-10 overflow-hidden rounded-[16px] bg-void-2/60 shadow-[0_40px_120px_-60px_rgb(111_182_255/0.35)] ring-1 ring-white/10 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(14rem,0.62fr)_minmax(0,1fr)]" data-reveal>
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgb(255_255_255/0.03)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.03)_1px,transparent_1px)] bg-[size:28px_28px] [mask-image:radial-gradient(ellipse_at_50%_40%,black,transparent_75%)]"
@@ -261,13 +299,17 @@ export function Signal() {
 
         {/* Earth: you. */}
         <div className={station}>
-          <p className="flex items-center justify-between font-mono text-label uppercase">
-            <span className="flex items-center gap-2.5 text-white">
-              <span aria-hidden="true" className="size-1.5 rounded-full bg-earth shadow-[0_0_10px_rgb(111_182_255/0.9)]" />
-              {signal.earth}
-            </span>
-            <span className="text-earth/80">{signal.earthWhere}</span>
-          </p>
+          <div className="flex flex-col gap-1 border-b border-white/10 pb-3">
+            <p className="flex items-center justify-between font-mono text-label uppercase">
+              <span className="flex items-center gap-2.5 text-white">
+                <span aria-hidden="true" className="size-2 rounded-full bg-earth shadow-[0_0_10px_rgb(111_182_255/0.9)]" />
+                {signal.earth}
+              </span>
+              <span className="rounded bg-earth/15 px-2 py-0.5 font-mono text-[0.625rem] tracking-widest text-earth uppercase">{signal.earthWhere}</span>
+            </p>
+            <p className="font-mono text-[0.625rem] tracking-wider text-regolith/50 uppercase">{signal.earthStation}</p>
+            <p className="font-mono text-[0.5625rem] tracking-widest text-earth/70 uppercase">{signal.earthTerminal}</p>
+          </div>
 
           <ol className={transcript} aria-live="polite">
             {msgs.length === 0 && <li className="max-w-[30ch] text-[0.875rem] leading-relaxed text-regolith/45">{signal.emptyEarth}</li>}
@@ -332,34 +374,67 @@ export function Signal() {
         </div>
 
         {/* The link between them. */}
-        <div className="relative flex flex-col justify-center gap-5 border-y border-white/10 bg-black/25 px-5 py-7 lg:border-x lg:border-y-0 lg:px-6">
-          <p className="text-center font-mono text-[0.625rem] tracking-[0.18em] text-regolith/45 uppercase">{signal.link}</p>
-          <canvas ref={canvasRef} aria-hidden="true" className="block h-16 w-full lg:h-24" />
+        <div className="relative flex flex-col justify-between gap-5 border-y border-white/10 bg-black/30 px-5 py-7 lg:border-x lg:border-y-0 lg:px-6">
+          <div className="flex items-center justify-between font-mono text-[0.625rem] tracking-[0.18em] text-regolith/50 uppercase">
+            <span>{signal.link}</span>
+            <span className="text-earth/90">1550 nm IR</span>
+          </div>
+
+          <div className="relative my-auto">
+            <canvas ref={canvasRef} aria-hidden="true" className="block h-20 w-full lg:h-28" />
+            <div className="mt-3 text-center">
+              <span
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-[0.625rem] tracking-wider uppercase transition-colors duration-300 ${
+                  activeStatus.inFlight
+                    ? activeStatus.isReply
+                      ? 'bg-sunlit/15 text-sunlit ring-1 ring-sunlit/30'
+                      : 'bg-earth/15 text-earth ring-1 ring-earth/30'
+                    : 'bg-white/5 text-regolith/60 ring-1 ring-white/10'
+                }`}
+              >
+                <span
+                  className={`size-1.5 rounded-full ${
+                    activeStatus.inFlight
+                      ? activeStatus.isReply
+                        ? 'animate-ping bg-sunlit'
+                        : 'animate-ping bg-earth'
+                      : 'bg-emerald-400'
+                  }`}
+                />
+                {activeStatus.label}
+              </span>
+            </div>
+          </div>
+
           <dl className="grid grid-cols-3 divide-x divide-white/10 text-center font-mono text-[0.5625rem] tracking-[0.14em] text-regolith/50 uppercase">
             <div className="px-1">
               <dt>{signal.distance}</dt>
-              <dd className="mt-1.5 text-[0.8125rem] tracking-normal text-white tabular-nums">{Math.round(sky.km / 1000)}k km</dd>
+              <dd className="mt-1.5 text-[0.875rem] font-semibold tracking-normal text-white tabular-nums">{Math.round(sky.km / 1000)}k km</dd>
             </div>
             <div className="px-1">
               <dt>{signal.oneWay}</dt>
-              <dd className="mt-1.5 text-[0.8125rem] tracking-normal text-earth tabular-nums">{sky.seconds.toFixed(2)} s</dd>
+              <dd className="mt-1.5 text-[0.875rem] font-semibold tracking-normal text-earth tabular-nums">{sky.seconds.toFixed(2)} s</dd>
             </div>
             <div className="px-1">
               <dt>{signal.roundTrip}</dt>
-              <dd className="mt-1.5 text-[0.8125rem] tracking-normal text-white tabular-nums">{(sky.seconds * 2).toFixed(2)} s</dd>
+              <dd className="mt-1.5 text-[0.875rem] font-semibold tracking-normal text-white tabular-nums">{(sky.seconds * 2).toFixed(2)} s</dd>
             </div>
           </dl>
         </div>
 
         {/* The Moon: the crew, who only hear what has arrived. */}
         <div className={station}>
-          <p className="flex items-center justify-between font-mono text-label uppercase">
-            <span className="flex items-center gap-2.5 text-white">
-              <span aria-hidden="true" className="size-1.5 rounded-full bg-sunlit shadow-[0_0_10px_rgb(242_230_201/0.8)]" />
-              {signal.moon}
-            </span>
-            <span className="text-sunlit/80">{signal.moonWhere}</span>
-          </p>
+          <div className="flex flex-col gap-1 border-b border-white/10 pb-3">
+            <p className="flex items-center justify-between font-mono text-label uppercase">
+              <span className="flex items-center gap-2.5 text-white">
+                <span aria-hidden="true" className="size-2 rounded-full bg-sunlit shadow-[0_0_10px_rgb(242_230_201/0.8)]" />
+                {signal.moon}
+              </span>
+              <span className="rounded bg-sunlit/15 px-2 py-0.5 font-mono text-[0.625rem] tracking-widest text-sunlit uppercase">{signal.moonWhere}</span>
+            </p>
+            <p className="font-mono text-[0.625rem] tracking-wider text-regolith/50 uppercase">{signal.moonStation}</p>
+            <p className="font-mono text-[0.5625rem] tracking-widest text-sunlit/70 uppercase">{signal.moonTerminal}</p>
+          </div>
 
           <ol className={transcript} aria-live="polite">
             {msgs.filter((m) => stageOf(m, now) >= 1).length === 0 && (
