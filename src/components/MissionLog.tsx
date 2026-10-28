@@ -9,7 +9,7 @@ import {onFrame} from '../lib/scroll';
  * rest dim back, and each picture drifts against its frame.
  */
 
-const SECTION_VH = 340;
+const SECTION_VH = 270;
 
 export function MissionLog() {
   const rootRef = useRef<HTMLElement>(null);
@@ -31,7 +31,7 @@ export function MissionLog() {
       lastP = p;
 
       const vw = window.innerWidth;
-      const k = range(p, 0.04, 0.96);
+      const k = range(p, 0.02, 0.98);
       const isDesktop = vw >= 768;
       const focusX = vw * (isDesktop ? 0.62 : 0.5);
 
