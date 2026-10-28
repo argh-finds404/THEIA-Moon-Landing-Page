@@ -153,8 +153,8 @@ export function Footer() {
       </div>
 
       {/* The wordmark, raked by a low sun. */}
-      <div ref={lightRef} onPointerMove={onLight} aria-hidden="true" className="mt-20 overflow-hidden px-4 text-center leading-[0.8] select-none sm:px-6 md:mt-28 md:px-[3vw]">
-        <span ref={markRef} className="lit-type inline-block font-display tracking-[0.2em] whitespace-nowrap" style={{marginRight: '-0.2em'}}>
+      <div ref={lightRef} onPointerMove={onLight} aria-hidden="true" className="mt-20 overflow-x-clip overflow-y-visible px-4 pb-4 text-center leading-[0.98] select-none sm:px-6 md:mt-28 md:px-[3vw] md:pb-6">
+        <span ref={markRef} className="lit-type inline-block py-1 font-display tracking-[0.2em] whitespace-nowrap" style={{marginRight: '-0.2em'}}>
           {brand.wordmark}
         </span>
       </div>

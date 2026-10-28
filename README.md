@@ -163,6 +163,7 @@ To make a production build, run `npm run build`.
 - **Zero forced reflows:** Geometry reads are decoupled from style writes inside the shared frame loop.
 - **Off-thread asset preparation:** WebGL 4K maps decode asynchronously with `createImageBitmap` and upload incrementally across animation frames.
 - **Zero dead-zone scroll tracking:** Chapters pin and travel synchronously with Lenis scroll progression.
+- **Typographic clearance:** Wordmark glyph baselines are unclipped with vertical overflow visibility and generous descender line-heights.
 - **Accessibility:** Full keyboard navigability, high-contrast typography, and complete `prefers-reduced-motion` compliance.
 
 <br />
