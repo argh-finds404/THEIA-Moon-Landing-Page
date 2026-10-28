@@ -43,22 +43,30 @@ export function MissionLog() {
           : Math.max(0, track.offsetLeft + track.scrollWidth - vw * 0.94);
       track.style.transform = `translate3d(${-k * travel}px, 0, 0)`;
 
+      // Batch reads first to prevent forced layout thrashing in rAF
+      const cardRects = cardRefs.current.map((card) => card?.getBoundingClientRect());
+
       let nearest = 0;
       let best = Infinity;
-      cardRefs.current.forEach((card, i) => {
-        const r = card.getBoundingClientRect();
+
+      // Write phase
+      cardRects.forEach((r, i) => {
+        const card = cardRefs.current[i];
+        const img = imgRefs.current[i];
+        if (!r || !card || !img) return;
+
         const off = (r.left + r.width / 2 - focusX) / vw;
         const a = clamp(Math.abs(off) * 1.6);
         card.style.opacity = String(1 - a * 0.55);
         card.style.transform = `scale(${1 - a * 0.07})`;
-        imgRefs.current[i].style.transform = `translate3d(${off * -60}px, 0, 0) scale(1.15)`;
+        img.style.transform = `translate3d(${off * -60}px, 0, 0) scale(1.15)`;
         if (Math.abs(off) < best) {
           best = Math.abs(off);
           nearest = i;
         }
       });
-      barRef.current!.style.transform = `scaleX(${k})`;
-      countRef.current!.textContent = `0${nearest + 1}`;
+      if (barRef.current) barRef.current.style.transform = `scaleX(${k})`;
+      if (countRef.current) countRef.current.textContent = `0${nearest + 1}`;
     });
   }, []);
 
@@ -103,7 +111,7 @@ export function MissionLog() {
                     alt={`${entry.title}: ${entry.body}`}
                     width={840}
                     height={1120}
-                    loading="lazy"
+                    loading="eager"
                     decoding="async"
                     className="size-full object-cover will-change-transform"
                   />
