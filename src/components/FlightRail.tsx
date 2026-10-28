@@ -25,17 +25,17 @@ const SECTIONS: SectionMark[] = [
   {id: '#ignition', label: 'Ignition', code: '02'},
   {id: '#log', label: 'Mission Log', code: '03'},
   {id: '#orbit', label: 'Orbit', code: '04'},
-  {id: '#trajectory', label: 'Trajectory', code: '05'},
-  {id: '#legends', label: 'Legends', code: '06'},
-  {id: '#sites', label: 'Landing sites', code: '07'},
-  {id: '#missions', label: 'Missions', code: '08'},
-  {id: '#reserve', label: 'Reserve', code: '09'},
+  {id: '#signal', label: 'Signal', code: '05'},
+  {id: '#trajectory', label: 'Trajectory', code: '06'},
+  {id: '#legends', label: 'Legends', code: '07'},
+  {id: '#sites', label: 'Landing sites', code: '08'},
+  {id: '#missions', label: 'Missions', code: '09'},
+  {id: '#reserve', label: 'Reserve', code: '10'},
 ];
 
 export function FlightRail() {
   const pathRef = useRef<SVGPathElement>(null);
   const beaconRef = useRef<SVGGElement>(null);
-  const railRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let lastY = -1;
@@ -79,7 +79,6 @@ export function FlightRail() {
 
   return (
     <aside
-      ref={railRef}
       aria-label="Orbital Mission Flight Rail"
       className="fixed right-3 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center justify-between pointer-events-none select-none"
       style={{height: '62vh', width: '32px'}}

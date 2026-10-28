@@ -29,7 +29,6 @@ const LEGS = [
   `M${MOON.cx} ${MOON.cy - 86} Q ${MOON.cx + 40} ${MOON.cy - 70} ${MOON.cx + 30} ${MOON.cy - 36}`,
 ];
 
-
 export function Trajectory() {
   const rootRef = useRef<HTMLElement>(null);
   const legRefs = useRef<SVGPathElement[]>([]);

@@ -79,7 +79,7 @@ export function onFrame(fn: Tick): () => void {
   };
 }
 
-/** Smooth-scrolls to an in-page hash like `#services`, or to the top for `#top`. */
+/** Smooth-scrolls to an in-page hash like `#missions`, or to the top for `#top`. */
 export function scrollToHash(hash: string) {
   const target = hash === '#top' ? 0 : document.querySelector<HTMLElement>(hash);
   if (target === null) return;

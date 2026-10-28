@@ -118,7 +118,8 @@ A few ideas carry the whole project:
 6. **Trajectory:** 384,400 km orbital path traced smoothly through the cislunar corridor.
 7. **Legends:** Interactive archival dossier of historic lunar missions (Apollo, Lunokhod, Chang'e, Chandrayaan), calibrated to fit within the viewport height without internal scroll traps or horizontal scrollbars.
 8. **Landing Sites:** Interactive 3D lunar globe with landing coordinates and coordinates navigation.
-9. **Reserve & Mission Plaque:** Live-engraved flight plaque harmonograph.
+9. **Missions:** Three expedition classes (Orbiter, Lander, Base) with orbital duration rings and direct reservation manifest selection.
+10. **Reserve & Mission Plaque:** Live-engraved flight plaque harmonograph and waitlist booking console.
 
 <br />
 
