@@ -9,6 +9,9 @@
   A scroll-driven journey to the Moon, built from real astronomy and real NASA data.
 </p>
 
+<p align="center">
+  <a href="https://theia-moon-landing-page.vercel.app/"><b>▶ &nbsp;See it live</b></a>
+</p>
 
 <p align="center">
   React · TypeScript · Vite · Tailwind · hand-written WebGL
@@ -98,6 +101,20 @@ A few ideas carry the whole project:
 
 <br />
 
+## Chapters
+
+1. **Earthrise (Hero):** Six layered plates cut from a single landscape, sliding at differential rates.
+2. **Ignition:** Ten-second dusk liftoff choreographed directly to scroll wheel progression.
+3. **Mission Log:** A horizontal mission reel capturing key stages of lunar exploration.
+4. **Orbit:** Real-time WebGL2 simulation of the Earth and Moon with solar illumination, day/night cycles, and atmospheric scattering.
+5. **Signal:** Interplanetary optical laser link simulation between Houston and Tranquillity Base with exact light-speed delay.
+6. **Trajectory:** 384,400 km orbital path traced smoothly through the cislunar corridor.
+7. **Legends:** Interactive archival dossier of historic lunar missions (Apollo, Lunokhod, Chang'e, Chandrayaan).
+8. **Landing Sites:** Interactive 3D lunar globe with landing coordinates and coordinates navigation.
+9. **Reserve & Mission Plaque:** Live-engraved flight plaque harmonograph.
+
+<br />
+
 ## Built with
 
 | | |
@@ -115,8 +132,8 @@ No GSAP, no Framer Motion, no animation library at all.
 ## Run it yourself
 
 ```bash
-git clone https://github.com/argh-finds404/theia-engine.git
-cd theia-engine
+git clone https://github.com/argh-finds404/THEIA-Moon-Landing-Page.git
+cd THEIA-Moon-Landing-Page
 npm install
 npm run dev
 ```
