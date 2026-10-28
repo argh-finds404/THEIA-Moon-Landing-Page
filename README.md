@@ -158,6 +158,15 @@ To make a production build, run `npm run build`.
 
 <br />
 
+## Performance & Accessibility
+
+- **Zero forced reflows:** Geometry reads are decoupled from style writes inside the shared frame loop.
+- **Off-thread asset preparation:** WebGL 4K maps decode asynchronously with `createImageBitmap` and upload incrementally across animation frames.
+- **Zero dead-zone scroll tracking:** Chapters pin and travel synchronously with Lenis scroll progression.
+- **Accessibility:** Full keyboard navigability, high-contrast typography, and complete `prefers-reduced-motion` compliance.
+
+<br />
+
 ## Credits
 
 - **Inspiration and starting point:** [Scrolltide's Selene](https://www.scrolltide.co/templates/selene). The hero artwork comes from their template.
