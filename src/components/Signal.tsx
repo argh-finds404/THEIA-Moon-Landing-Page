@@ -281,13 +281,13 @@ export function Signal() {
       </div>
 
       {/* Concept explainer HUD banner */}
-      <div className="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-void-2/60 px-4 py-3 backdrop-blur" data-reveal>
+      <div className="mt-8 flex flex-col gap-3 rounded-xl border border-white/10 bg-void-2/60 p-4 backdrop-blur sm:flex-row sm:items-center sm:justify-between" data-reveal>
         <div className="flex items-center gap-2.5">
-          <span className="size-2 animate-pulse rounded-full bg-earth shadow-[0_0_8px_rgb(111_182_255/0.8)]" />
+          <span className="size-2 shrink-0 animate-pulse rounded-full bg-earth shadow-[0_0_8px_rgb(111_182_255/0.8)]" />
           <span className="font-mono text-[0.6875rem] tracking-wider text-white uppercase">{signal.conceptBadge}</span>
         </div>
-        <p className="text-[0.75rem] text-regolith/75">{signal.conceptExplanation}</p>
-        <span className="font-mono text-[0.6875rem] tracking-wider text-earth uppercase">{signal.carrierSpeed}</span>
+        <p className="text-[0.75rem] leading-relaxed text-regolith/75 sm:max-w-md">{signal.conceptExplanation}</p>
+        <span className="shrink-0 font-mono text-[0.6875rem] tracking-wider text-earth uppercase">{signal.carrierSpeed}</span>
       </div>
 
       {/* One console: Houston, the link, the crew. */}
