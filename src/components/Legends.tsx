@@ -389,7 +389,7 @@ function Dossier({
       onCancel={onCancel}
       data-lenis-prevent
       aria-labelledby="dossier-title"
-      className={`dossier m-0 h-dvh max-h-none w-full max-w-none overflow-x-hidden overflow-y-auto overscroll-contain border-0 bg-void p-0 text-regolith backdrop:bg-void lg:overflow-hidden ${state}`}
+      className={`dossier m-0 h-dvh max-h-none w-full max-w-none overflow-hidden overscroll-contain border-0 bg-void p-0 text-regolith backdrop:bg-void ${state}`}
     >
       {/* Top bar first, so Back is the first stop for the keyboard. */}
       <div
@@ -418,7 +418,7 @@ function Dossier({
       </div>
 
       {m && index !== null && (
-        <div ref={bodyRef} key={m.id} className="dossier-body grid min-h-full lg:h-full lg:grid-cols-[minmax(0,1.35fr)_minmax(20rem,1fr)]">
+        <div ref={bodyRef} key={m.id} className="dossier-body grid min-h-full lg:h-full lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
           <figure ref={mediaRef} className="relative h-[56svh] overflow-hidden bg-black lg:h-full">
             {showFilm ? (
               <video
