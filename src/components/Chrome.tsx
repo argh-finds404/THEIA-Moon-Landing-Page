@@ -49,6 +49,13 @@ export function Header() {
             {item.label}
           </a>
         ))}
+        <a
+          href="#reserve"
+          onClick={(e) => go(e, () => setOpen(false))}
+          className="mt-4 flex items-center justify-center rounded-[4px] bg-white px-5 py-4 font-mono text-label text-void uppercase transition-colors hover:bg-earth"
+        >
+          Reserve a seat
+        </a>
       </div>
     </header>
   );

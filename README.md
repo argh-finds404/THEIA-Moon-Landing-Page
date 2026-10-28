@@ -103,6 +103,7 @@ A few ideas carry the whole project:
 - **Real data.** NASA's Moon and Earth maps, mission photos, and the Gaia star survey, turned into web-sized images by scripts in this repo.
 - **Built to be used by everyone.** It respects reduced-motion settings, works with a keyboard and screen readers, and has fallbacks where WebGL isn't available.
 - **Fluid responsiveness.** Fully adaptive interfaces designed from 390px mobile viewports to 4K desktop displays with zero sideways overflow.
+- **Mobile-first navigation & CTA parity.** Full conversion actions and reservation triggers preserved in mobile drawer overlays alongside baseline-aligned mission card matrices.
 
 <br />
 

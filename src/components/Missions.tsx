@@ -70,7 +70,7 @@ export function Missions() {
             <a
               href="#reserve"
               onClick={(e) => toReserve(e, m.name)}
-              className={`mt-10 rounded-[4px] px-5 py-3.5 text-center font-mono text-label uppercase transition-colors ${
+              className={`mt-8 rounded-[4px] px-5 py-3.5 text-center font-mono text-label uppercase transition-colors md:mt-auto ${
                 m.featured ? 'bg-earth text-void hover:bg-white' : 'text-white ring-1 ring-white/25 hover:bg-white hover:text-void'
               }`}
             >
